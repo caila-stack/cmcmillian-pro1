@@ -42,11 +42,12 @@ a {
 	text-decoration: none;
 }
 
-#redfox{
+img{
 	position: relative;
 	float: left;
 	height: 50px;
 	bottom: 5px;
+	right: 85px;
 }
 
 #newsfeed {
