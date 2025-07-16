@@ -32,9 +32,9 @@ function displayItem(item) {
     `;
 }
 
-// Wait until the page is fully loaded
 window.addEventListener('load', function () {
-    // Set up event listener for the portal button
+    // Set up event listener for the portal button+
+    
     document.getElementById('portal_button').addEventListener('click', function () {
         goToLocation('http://my.marist.edu');
     });
