@@ -9,7 +9,12 @@ app.get('/feed', function(req, res) {
     res.sendFile('feed.html', {root: './client/views'})
 })
 
-app.listen(1337, () => console.log("Server running on port 1337"))
+let feedController = require('./controller/feedController');
 
-app.route('/api/feedItem')
-    .get(feedController.getAllUsers)
+app.route('/api/FeedItems')
+    .get(feedController.getAllFeedItems)
+
+
+
+app.listen(1337, () => console.log('Server running on port 1337.'))
+
