@@ -13,6 +13,13 @@ let feedController = require('./controller/feedController');
 
 app.route('/api/FeedItems')
     .get(feedController.getAllFeedItems)
+    .post(feedController.saveFeedItems)
+
+    app.route('/api/FeedItems/:FeedItemsId')
+    .get(feedController.getFeedItems)
+    .delete(feedController.deleteFeedItems)
+    .patch(feedController.updateFeedItem)
+    
 
 
 

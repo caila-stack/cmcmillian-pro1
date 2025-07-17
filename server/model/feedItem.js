@@ -8,4 +8,4 @@ class FeedItems {
     }
 }
 
-module.exports = FeedItems;
+module.exports = {   FeedItems}
