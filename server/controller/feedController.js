@@ -1,44 +1,54 @@
-const FeedItems = require ('../model/feedItem');
-let feedItem1 = new FeedItems('blah','fart', 'six','seven','fan','faith','modl')
-let feedItem2 = new FeedItems('bah','frt', 'si','even','an','fith','mdl')
-let feedItem3 = new FeedItems('bh','ft', 'i','een','n','fth','dl')
+const { FeedItem } = require('../model/feedItem');  // Destructure the constructor
 
-let feedItems = [feedItem1, feedItem2, feedItem3]
+// Sample initial data
+let allFeedItems = [
+    new FeedItem('farting', 'dumpling', 'noodle', 'sushi'),   // Only 4 args per constructor
+    new FeedItem('fries', 'fart', 'burger', 'pizza'),
+    new FeedItem('chips', 'pretzels', 'farters', 'goldfish')
+];
 
-exports.getAllFeedItems = (req,res) => {
-    console.log("blah")
-    res.setHeader('content-type','application/json');
-    res.send(JSON.stringify(feedItems));
-}
-
-exports.saveFeedItemHandler=(req,res) => {
-    let newItem = feedItem1.FeedItems(req.body.title, req.body.body, req.body.linkUrl, req.body.imageUrl);
-    allFeedItems.push(newItem);
-    res.setHeader("content-type", "pplication/json");
-    res.send(newitem);
-    res.send(JSON.stringify(allFeedItems))
+// GET all
+exports.getAllFeedItem = (req, res) => {
+    res.setHeader('Content-Type', 'application/json');
+    res.json(allFeedItems);
 };
 
-exports.getFeedItem = (req,res) => {
-    const id = parseInt(req,URLSearchParams.FeedItemsId);
-    if (isNaN(id) ||id < 0|| id>= allFeedItems.length) {
-        res.set('content-Type','application/json');
-        res.send(JSON.stringify({ error: "feed item not found"}));
-        return;
+// POST new item
+exports.saveFeedItemHandler = (req, res) => {
+    const newItem = new FeedItem(req.body.title, req.body.body, req.body.linkUrl, req.body.imageUrl);
+    allFeedItems.push(newItem);
+    res.status(201).json(newItem);
+};
 
+// GET by ID
+exports.getFeedItem = (req, res) => {
+    const id = parseInt(req.params.feedItemId);
+    if (isNaN(id) || id < 0 || id >= allFeedItems.length) {
+        return res.status(404).json({ error: 'Feed item not found' });
+    }
+    res.json(allFeedItems[id]);
+};
+
+// DELETE by ID
+exports.deleteFeedItem = (req, res) => {
+    const id = parseInt(req.params.feedItemId);
+    if (isNaN(id) || id < 0 || id >= allFeedItems.length) {
+        return res.status(404).json({ error: 'Feed item not found' });
+    }
+    const deleted = allFeedItems.splice(id, 1)[0];
+    res.json({ message: 'Feed item deleted', deleted });
+};
+
+// PUT/PATCH update by ID
+exports.updateFeedItem = (req, res) => {
+    const id = parseInt(req.params.feedItemId);
+    if (isNaN(id) || id < 0 || id >= allFeedItems.length) {
+        return res.status(404).json({ error: 'Feed item not found' });
     }
     const item = allFeedItems[id];
-
-    res.set('content-type','application/json');
-    res.send(JSON.stringify(item));
+    if (req.body.title) item.title = req.body.title;
+    if (req.body.body) item.body = req.body.body;
+    if (req.body.linkUrl) item.linkUrl = req.body.linkUrl;
+    if (req.body.imageUrl) item.imageUrl = req.body.imageUrl;
+    res.json(item);
 };
-
-exports.deleteFeedItem = (req,res) => {
-    const id = parseInt(req.params.feedItemId);
-
-    if (isNaN(id) ||id < 0|| id>= allFeedItems.length){
-       res.set('content-Type','application/json');
-        res.send(JSON.stringify({ error: "feed item not found"}));  
-    }
-
-}
